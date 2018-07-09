@@ -17,6 +17,10 @@ const config={
                 loader:'vue-loader'
             },
             {
+                test:/\.jsx$/,
+                loader:'babel-loader'
+            },
+            {
                 test:/\.css$/,
                 use: [
                     'style-loader',
@@ -40,6 +44,12 @@ const config={
                 use:[
                     'style-loader',
                     'css-loader',
+                    {
+                        loader:'postcss-loader',
+                        options:{
+                            sourceMap:true,
+                        }
+                    },
                     'stylus-loader'
                 ]
             }
@@ -52,7 +62,6 @@ const config={
             }
         }),
         new  HTMLPlugin({
-            filename: 'test.html',
             template: 'src/assets/test.html',
             hash: true,
         }),
@@ -60,19 +69,20 @@ const config={
 }
 
 if(isDev){
+    config.devtool="#cheap-module-eval-source-map"
     config.devServer={
         port:8000,
         host:'0.0.0.0',
         overlay:{
             errors:true,
         },
-        open:true,
-        hot:true,
-    },
-    config.plugins.push(
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin()
-    )
+        //hot:true,
+    }
+    // ,
+    // config.plugins.push(
+    //     new webpack.HotModuleReplacementPlugin(),
+    //     new webpack.NoEmitOnErrorsPlugin()
+    // )
 
 }
 
