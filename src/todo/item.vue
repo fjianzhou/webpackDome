@@ -19,6 +19,7 @@
                 this.$emit("del",this.todo.id)
             }
         }
+
     }
 </script>
 
@@ -31,7 +32,9 @@
     &:hover
         .destory:after
             content: 'x'
-
+    &.completed
+        text-decoration line-through
+        color red
     label
         white-space pre-line;
         word-break break-all;

@@ -1,8 +1,8 @@
 <template>
     <section class="real-app">
         <input type="text" class="add-input" autofocus="autofocus" placeholder="接下来要去做什么？"  @keyup.enter="addTodo"/>
-        <Item :todo="todo" v-for="todo in todos" :key="todo.id" @del="deleteTodo" />
-        <Tab :filter="filter"></Tab>
+        <Item :todo="todo" v-for="todo in filtedTodos" :key="todo.id" @del="deleteTodo" />
+        <Tab :filter="filter" :todos="todos" @toggleFilter="toggleFilter" @clearAllCompleted="clearAllCompleted"></Tab>
     </section>
 </template>
 
@@ -19,6 +19,7 @@ export default {
   },
   methods: {
     addTodo(e) {
+      if (!e.target.value.trim()) return;
       this.todos.unshift({
         id: id++,
         content: e.target.value.trim(),
@@ -26,10 +27,25 @@ export default {
       });
       e.target.value = "";
     },
-    deleteTodo(id){
-        this.todos = this.todos.filter((item)=>{
-            return item.id!=id;
-        })
+    deleteTodo(id) {
+      this.todos = this.todos.filter(item => {
+        return item.id != id;
+      });
+    },
+    toggleFilter(filter) {
+      this.filter = filter;
+    },
+    clearAllCompleted(){
+        this.todos = this.todos.filter(item =>{ return !item.completed})
+    }
+  },
+  computed: {
+    filtedTodos() {
+      if (this.filter === "all") {
+        return this.todos;
+      }
+      let filted = this.filter === "completed";
+      return this.todos.filter(item => item.completed === filted);
     }
   },
   components: {
