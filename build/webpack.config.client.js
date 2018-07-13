@@ -35,20 +35,12 @@ if (isDev) {
             }
         },
         devtool: "#cheap-module-eval-source-map",
-    })
-
-    config.devServer = {
-            port: 8000,
-            host: '0.0.0.0',
-            overlay: {
-                errors: true,
-            },
-            hot: true,
-        },
-        config.plugins.push(
+        devServer,
+        plugins:[
             new webpack.HotModuleReplacementPlugin(),
-            new webpack.NoEmitOnErrorsPlugin()
-        )
+            new webpack.NoEmitOnErrorsPlugin(),
+        ]
+    })
 
 } else {
     config.entry = {
